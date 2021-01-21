@@ -23,9 +23,9 @@ Fibonacci
 '''
 
 triangle = lambda n : '\n'.join([
-        f"{' ' * ((n-1)-i)} {'*' * (2*i+1)}"
-        for i in range(n) # comprehension
-    ])
+    f"{' ' * ((n-1)-i)} {'*' * (2*i+1)}"
+    for i in range(n) # comprehension
+])
 
 
 # print(triangle(4))
