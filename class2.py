@@ -50,7 +50,7 @@ def cache_fibo(n):
     result = 1
     if n < 2:
         return 1
-    result = cache[n] =  cache_fibo(n-1) + cache_fibo(n-2)
+    result = cache[n] = cache_fibo(n-1) + cache_fibo(n-2)
     return result
 
 # print(cache_fibo(5))
