@@ -2,6 +2,7 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import math
 
 # data ---------------------------
 df = pd.read_csv('satgpa.csv')
@@ -24,20 +25,19 @@ def gradient_descent(
 ):
     theta = theta_0
     iteration = 0
-    costs = []
+    history = []
     while np.linalg.norm(cost_function_gradient(X, y, theta)) > threshold and iteration < max_iter:
         iteration += 1
         theta -= learning_rate * cost_function_gradient(X, y, theta)
-        costs.append(cost_function(X, y, theta))
+        history.append(theta - learning_rate * cost_function_gradient(X, y, theta))
 
-    return theta, costs
+    return theta, history
 
 # methods ------------------------
 x = df.copy()
 y = np.array(df['fy_gpa']).reshape(1000, 1)
 del x['sat_sum']
 del x['fy_gpa']
-print(x.head())
 
 X = np.hstack(
     (
@@ -49,11 +49,7 @@ X = np.hstack(
 m, n = X.shape
 theta_0 = np.random.rand(n, 1)
 
-print('Forma de X', X.shape)
-print('Forma de Y', y.shape)
-print('Forma de matriz de thetas', theta_0.shape)
-
-r_theta, costs = gradient_descent(
+r_theta, history = gradient_descent(
     X, y, theta_0,
     linear_cost,
     linear_cost_gradient,
@@ -61,15 +57,18 @@ r_theta, costs = gradient_descent(
     threshold=1.5
 )
 
-# print("Thetas\n", r_theta)
+plt.scatter(X[:,3], y)
+plt.plot(X[:,3], X @ history[math.floor(len(history)*0.05)], color='red')
+plt.show()
 
-# plt.scatter(X[:,1], y)
-# plt.plot(X[:,1], X @ r_theta, color='red')
-# plt.show()
+plt.scatter(X[:,3], y)
+plt.plot(X[:,3], X @ history[math.floor(len(history)*0.3)], color='red')
+plt.show()
 
-# ans ----------------------------
-print('\nIntercept: ', r_theta[0])
-print('Sex coef: ', r_theta[1])
-print('SAT_v coef: ', r_theta[2])
-print('SAT_m coef: ', r_theta[3])
-print('HS_gpa coef: ', r_theta[4])
+plt.scatter(X[:,3], y)
+plt.plot(X[:,3], X @ history[math.floor(len(history)*0.8)], color='red')
+plt.show()
+
+plt.scatter(X[:,3], y)
+plt.plot(X[:,3], X @ r_theta, color='green')
+plt.show()

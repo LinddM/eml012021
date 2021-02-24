@@ -1,5 +1,6 @@
-# from matplotlib import pyplot as plt
 import numpy as np
+import matplotlib.pyplot as plt
+import math
 
 def linear_cost(X, y, theta):
     h = X @ theta
@@ -23,7 +24,7 @@ def gradient_descent(
     while np.linalg.norm(cost_function_gradient(X, y, theta)) > threshold and iteration < max_iter:
         iteration += 1
         theta -= learning_rate * cost_function_gradient(X, y, theta)
-        costs.append(cost_function(X, y, theta))
+        costs.append(theta-learning_rate * cost_function_gradient(X, y, theta))
 
     return theta, costs
 
@@ -52,9 +53,20 @@ r_theta, costs = gradient_descent(
     threshold=1.5
 )
 
-print("theta ", r_theta)
-# print("costs ", costs)
+print("theta ", r_theta.shape)
 
-# # plt.scatter(X[:,1], y)
-# plt.plot(costs)
-# plt.show()
+plt.scatter(X[:,1], y)
+plt.plot(X[:,1], X @ costs[math.floor(len(costs)*0.05)], color='green')
+plt.show()
+
+plt.scatter(X[:,1], y)
+plt.plot(X[:,1], X @ costs[math.floor(len(costs)*0.2)], color='green')
+plt.show()
+
+plt.scatter(X[:,1], y)
+plt.plot(X[:,1], X @ costs[math.floor(len(costs)*0.5)], color='green')
+plt.show()
+
+plt.scatter(X[:,1], y)
+plt.plot(X[:,1], X @ r_theta, color='red')
+plt.show()
